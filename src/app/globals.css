@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0a0a0c;
+  --surface: #16161a;
+  --surface2: rgba(255, 255, 255, 0.04);
+  --line: rgba(255, 255, 255, 0.1);
+  --goldline: rgba(201, 162, 74, 0.35);
+  --text: #ede9e2;
+  --dim: rgba(237, 233, 226, 0.55);
+  --faint: rgba(237, 233, 226, 0.35);
+  --gold: #c9a24a;
+  --gold2: #e8caa0;
+  --red: #e2665f;
+  --green: #4ade80;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+input,
+select {
+  color-scheme: dark;
+}

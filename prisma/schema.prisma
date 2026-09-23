@@ -1,0 +1,87 @@
+// AR Corp Client Portal — a standalone app for AR Corp's external partners
+// ("Mami"/Channel PICs) to view their monthly VCR/Fee ledger. Deliberately a
+// separate app/service/database from the main AR Corp HR app
+// (ekhy-arcorp-ar-corp-hr): a bug, crash, or heavy load here must never be
+// able to affect employee/Tera login or the office admin panel there — same
+// isolation principle as ar-fleet-tracker and ar-license-console. AR Corp
+// staff manage this app's data through its own /admin section (single
+// shared password, see src/lib/auth.ts), not through the main AR Corp app.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// SQLite has no native enum support — enum-like fields are plain String
+// columns enforced in application code (see src/lib/constants.ts):
+//   ClientStatus: AKTIF | NONAKTIF
+
+// One row per external partner (e.g. "Mami Ariel") who gets their own
+// email/HP login (see ClientOtpCode/ClientLoginEvent) to view their ledger
+// (ClientEntry) — never the main AR Corp app's own Employee/login system.
+model ClientAccount {
+  id        String   @id @default(cuid())
+  code      String   @unique // e.g. CH-01
+  name      String   // PIC/channel name, e.g. "Mami Ariel"
+  email     String   @unique
+  phone     String   @unique
+  status    String   @default("AKTIF") // "AKTIF" | "NONAKTIF" — a nonaktif client can no longer log in
+  createdAt DateTime @default(now())
+
+  otpCodes    ClientOtpCode[]
+  loginEvents ClientLoginEvent[]
+  entries     ClientEntry[]
+}
+
+model ClientOtpCode {
+  id         String        @id @default(cuid())
+  clientId   String
+  client     ClientAccount @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  codeHash   String
+  expiresAt  DateTime
+  consumedAt DateTime?
+  attempts   Int           @default(0)
+  createdAt  DateTime      @default(now())
+
+  @@index([clientId, createdAt])
+}
+
+// Where a Client was when they logged in — recorded on every login, no
+// radius/attendance concept (a Client isn't assigned a fixed field location
+// the way an AR Corp employee/Tera is).
+model ClientLoginEvent {
+  id        String        @id @default(cuid())
+  clientId  String
+  client    ClientAccount @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  lat       Float?
+  lng       Float?
+  createdAt DateTime      @default(now())
+
+  @@index([clientId, createdAt])
+}
+
+// One row = one talent's monthly VCR/fee line on a Client's ledger — mirrors
+// the "DATA CLIENT/CHANNEL" Excel format AR Corp Admin fills in by hand (NO/
+// NAMA/OUTLET/VCR/FEE/JUMLAH/POTONGAN-KASBON/KETERANGAN). "jumlah" (vcr *
+// fee) and a period's grand total are always computed live from
+// vcr/fee/potongan, never stored, so they can never drift.
+model ClientEntry {
+  id         String        @id @default(cuid())
+  clientId   String
+  client     ClientAccount @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  month      String        // "YYYY-MM"
+  nama       String
+  outlet     String
+  vcr        Int
+  fee        Int
+  potongan   Int           @default(0) // Potongan/Kasbon
+  keterangan String?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  @@index([clientId, month])
+}
