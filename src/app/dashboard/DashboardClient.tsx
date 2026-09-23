@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { fmtRp, monthLabel } from "@/lib/format";
+import MonthYearPicker from "@/components/MonthYearPicker";
 
 interface Entry {
   id: string;
@@ -74,12 +75,7 @@ export default function DashboardClient({ name, code }: { name: string; code: st
           <div className="text-[22px] font-semibold leading-[1.1]">Data VCR / Fee</div>
           <div className="text-[11.5px] text-[var(--dim)] mt-1.5">Ringkasan pendapatan talent Anda per periode.</div>
         </div>
-        <input
-          type="month"
-          value={month}
-          onChange={(e) => setMonth(e.target.value)}
-          className="py-2.5 px-3.5 bg-black/30 border border-[var(--line)] rounded-[10px] text-[12.5px]"
-        />
+        <MonthYearPicker value={month} onChange={setMonth} />
       </div>
 
       {entries === null && <div className="text-[12.5px] text-[var(--faint)]">Memuat…</div>}

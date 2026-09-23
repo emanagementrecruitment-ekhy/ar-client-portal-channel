@@ -2,7 +2,7 @@ export function fmtRp(n: number): string {
   return "Rp " + Math.round(n).toLocaleString("id-ID");
 }
 
-const FULL_MONTHS = [
+export const FULL_MONTHS = [
   "Januari", "Februari", "Maret", "April", "Mei", "Juni",
   "Juli", "Agustus", "September", "Oktober", "November", "Desember",
 ];

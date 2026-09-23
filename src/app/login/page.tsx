@@ -165,7 +165,7 @@ export default function ClientLoginPage() {
                 }}
                 className="w-full mt-2.5 py-2 bg-transparent border border-[var(--goldline)] rounded-[10px] text-[var(--gold)] text-[10.5px] tracking-[0.08em] cursor-pointer"
               >
-                Coba Demo (Mami Ariel)
+                Coba Demo (Mami Maya)
               </button>
             </div>
           )}

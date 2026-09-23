@@ -64,6 +64,41 @@ export function emailProviderConfigured() {
   return Boolean(process.env.BREVO_API_KEY) || getMailer() !== null;
 }
 
+/** Sends an email with a PDF attachment (ledger "Kirim PDF ke Email") — same
+ * two providers as sendOtpEmail, picked the same way. */
+export async function sendPdfEmail(to: string, subject: string, text: string, pdf: Buffer, filename: string) {
+  if (process.env.BREVO_API_KEY) {
+    const senderRaw = process.env.SMTP_FROM || process.env.SMTP_USER;
+    if (!senderRaw) throw new Error("No sender email configured for Brevo API");
+    const sender = parseSender(senderRaw);
+    const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+      method: "POST",
+      headers: { "api-key": process.env.BREVO_API_KEY, "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        sender: { email: sender.email, name: sender.name || "AR Corp Channel" },
+        to: [{ email: to }],
+        subject,
+        textContent: text,
+        attachment: [{ content: pdf.toString("base64"), name: filename }],
+      }),
+    });
+    if (!res.ok) {
+      const detail = await res.text().catch(() => "");
+      throw new Error(`Brevo API send failed: ${res.status} ${detail}`);
+    }
+    return;
+  }
+  const transport = getMailer();
+  if (!transport) throw new Error("SMTP is not configured");
+  await transport.sendMail({
+    from: process.env.SMTP_FROM || process.env.SMTP_USER,
+    to,
+    subject,
+    text,
+    attachments: [{ filename, content: pdf }],
+  });
+}
+
 export async function sendOtpEmail(to: string, code: string) {
   if (process.env.BREVO_API_KEY) {
     await sendOtpEmailViaBrevoApi(to, code);

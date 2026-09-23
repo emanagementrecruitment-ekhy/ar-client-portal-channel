@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 import { CLIENT_OUTLETS, CLIENT_FEE_TIERS } from "@/lib/constants";
 import { fmtRp, monthLabel } from "@/lib/format";
+import MonthYearPicker from "@/components/MonthYearPicker";
 
 interface Entry {
   id: string;
@@ -41,6 +43,8 @@ export default function AdminClientLedgerPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState("");
+  const [sending, setSending] = useState(false);
+  const [sendMsg, setSendMsg] = useState("");
 
   function load() {
     fetch(`/api/clients/${id}/entries?month=${month}`)
@@ -104,6 +108,24 @@ export default function AdminClientLedgerPage() {
     }
   }
 
+  async function sendPdf() {
+    setSending(true);
+    setSendMsg("");
+    try {
+      const res = await fetch(`/api/clients/${id}/entries/send`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ month }),
+      });
+      const data = await res.json();
+      setSendMsg(res.ok ? `Terkirim ke ${data.sentTo}` : (data.error ?? "Gagal mengirim."));
+    } catch {
+      setSendMsg("Gagal mengirim.");
+    } finally {
+      setSending(false);
+    }
+  }
+
   async function remove(entryId: string) {
     if (!confirm("Hapus baris ini?")) return;
     const res = await fetch(`/api/clients/${id}/entries/${entryId}`, { method: "DELETE" });
@@ -122,12 +144,7 @@ export default function AdminClientLedgerPage() {
           <div className="text-[22px] font-semibold leading-[1.1]">{clientName ? `Data Client — ${clientName}` : "Data Client"}</div>
           <div className="text-[11.5px] text-[var(--dim)] mt-1.5">{clientCode ? `Kode ${clientCode} · ledger VCR/Fee bulanan` : ""}</div>
         </div>
-        <input
-          type="month"
-          value={month}
-          onChange={(e) => setMonth(e.target.value)}
-          className="py-2.5 px-3.5 bg-black/30 border border-[var(--line)] rounded-[10px] text-[12.5px]"
-        />
+        <MonthYearPicker value={month} onChange={setMonth} />
       </div>
 
       <div className="pt-5.5 grid grid-cols-1 lg:[grid-template-columns:1fr_2fr] gap-4">
@@ -233,8 +250,37 @@ export default function AdminClientLedgerPage() {
         </div>
 
         <div className="p-5 bg-[var(--surface)] border border-[var(--line)] rounded-2xl h-fit overflow-x-auto">
-          <div className="text-[19px] font-semibold text-[var(--gold2)] mb-4">Ledger {monthLabel(month)}</div>
-          <table className="w-full text-[14px] border-collapse min-w-[860px]">
+          <div className="flex flex-wrap items-center justify-between gap-3 mb-4 print:hidden">
+            <div className="text-[19px] font-semibold text-[var(--gold2)]">Ledger {monthLabel(month)}</div>
+            <div className="flex items-center gap-2.5">
+              <button
+                onClick={() => window.print()}
+                className="py-2 px-4 bg-[var(--surface2)] border border-[var(--line)] rounded-[9px] text-[var(--dim)] text-[11px] font-bold tracking-[0.1em] uppercase cursor-pointer"
+              >
+                Cetak
+              </button>
+              <button
+                onClick={sendPdf}
+                disabled={sending}
+                className="py-2 px-4 rounded-[9px] text-[11px] font-bold tracking-[0.1em] uppercase cursor-pointer disabled:opacity-60"
+                style={{ background: "linear-gradient(135deg, var(--gold), var(--gold2))", color: "#1a1200" }}
+              >
+                {sending ? "Mengirim…" : "Kirim PDF ke Email"}
+              </button>
+            </div>
+          </div>
+          {sendMsg && <div className="text-[11.5px] text-[var(--dim)] mb-3 print:hidden">{sendMsg}</div>}
+
+          <div id="ledger-print-area" className="relative">
+            <div className="hidden print:flex absolute inset-0 items-center justify-center pointer-events-none">
+              <Image src="/ar-corp-logo.png" alt="" width={320} height={320} unoptimized className="object-contain opacity-[0.06]" />
+            </div>
+            <div className="hidden print:block mb-4">
+              <div className="text-[11px] tracking-[0.3em] uppercase text-black/60 font-semibold">AR Corp Channel</div>
+              <div className="text-[18px] font-semibold text-black">{clientName} ({clientCode})</div>
+              <div className="text-[12px] text-black/60">Ledger {monthLabel(month)}</div>
+            </div>
+            <table className="w-full text-[14px] border-collapse min-w-[860px] print:text-black print:min-w-0">
             <thead>
               <tr className="text-left text-[var(--dim)] uppercase text-[11.5px] tracking-[0.1em] border-b border-[var(--line)]">
                 <th className="py-3 pr-3">No</th>
@@ -245,7 +291,7 @@ export default function AdminClientLedgerPage() {
                 <th className="py-3 pr-3 text-right">Jumlah</th>
                 <th className="py-3 pr-3 text-right">Potongan/Kasbon</th>
                 <th className="py-3 pr-3">Keterangan</th>
-                <th className="py-3 pr-3"></th>
+                <th className="py-3 pr-3 print:hidden"></th>
               </tr>
             </thead>
             <tbody>
@@ -266,7 +312,7 @@ export default function AdminClientLedgerPage() {
                   <td className="py-3 pr-3 text-right text-[var(--gold2)]">{fmtRp(e.jumlah)}</td>
                   <td className="py-3 pr-3 text-right text-[var(--red)]">{e.potongan ? fmtRp(e.potongan) : "—"}</td>
                   <td className="py-3 pr-3 text-[var(--dim)]">{e.keterangan || "—"}</td>
-                  <td className="py-3 pr-3 whitespace-nowrap">
+                  <td className="py-3 pr-3 whitespace-nowrap print:hidden">
                     <button onClick={() => startEdit(e)} className="text-[var(--gold)] text-[13px] mr-3 cursor-pointer">
                       Edit
                     </button>
@@ -299,7 +345,8 @@ export default function AdminClientLedgerPage() {
                 </tr>
               </tfoot>
             )}
-          </table>
+            </table>
+          </div>
         </div>
       </div>
     </div>

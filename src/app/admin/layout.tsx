@@ -2,6 +2,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { isAdminSession } from "@/lib/auth";
 import AdminLogoutButton from "@/components/AdminLogoutButton";
+import ScreenshotButton from "@/components/ScreenshotButton";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const authed = await isAdminSession();
@@ -20,6 +21,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         <AdminLogoutButton />
       </header>
       <main className="max-w-[1180px] mx-auto px-5 sm:px-8 py-6">{children}</main>
+      <ScreenshotButton />
     </div>
   );
 }

@@ -43,3 +43,35 @@ select option {
   font-size: 17px;
   padding: 8px;
 }
+
+/* Ledger "Cetak" button — print only #ledger-print-area, flipped to
+   black-on-white, everything else on the page hidden. Mirrors the same
+   body:has() pattern used for Slip Pay in the main AR Corp app. */
+@media print {
+  body:has(#ledger-print-area) * {
+    visibility: hidden;
+  }
+  body:has(#ledger-print-area) #ledger-print-area,
+  body:has(#ledger-print-area) #ledger-print-area * {
+    visibility: visible;
+  }
+  body:has(#ledger-print-area) #ledger-print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #fff;
+    /* Every color in this app is read through these CSS variables (gold,
+       dim text, red for deductions, ...) — redefining them here for print
+       flips the whole ledger to readable black-on-white without having to
+       override color on every individual cell. */
+    --text: #000000;
+    --dim: rgba(0, 0, 0, 0.6);
+    --faint: rgba(0, 0, 0, 0.4);
+    --gold: #8a6d1f;
+    --gold2: #8a6d1f;
+    --red: #b91c1c;
+    --line: rgba(0, 0, 0, 0.15);
+    --goldline: rgba(138, 109, 31, 0.4);
+  }
+}
