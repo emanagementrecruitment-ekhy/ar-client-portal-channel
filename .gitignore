@@ -9,3 +9,24 @@ next-env.d.ts
 /prisma/*.db-journal
 /prisma/*.db-shm
 /prisma/*.db-wal
+
+# Android signing keystore + generated Bubblewrap project — never committed;
+# the keystore is a secret (base64'd into a GitHub Actions secret instead),
+# and the Gradle project is regenerated fresh by CI from twa-manifest.json.
+/android/android.keystore
+/android/*.log
+/android/app/
+/android/gradle/
+/android/gradlew
+/android/gradlew.bat
+/android/*.aab
+/android/*.apk
+/android/manifest-checksum.txt
+/android/store_icon.png
+
+# Electron build output
+/desktop/node_modules/
+/desktop/dist/
+
+# Built APK is published by CI, not committed manually from here
+/public/downloads/*.apk

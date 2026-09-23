@@ -52,6 +52,22 @@ export default function AdminLoginPage() {
         >
           {busy ? "Memeriksa…" : "Masuk"}
         </button>
+
+        <div className="mt-5 flex flex-wrap gap-2 justify-center">
+          <a
+            href="/downloads/client-portal.apk"
+            download
+            className="text-[9.5px] tracking-[0.12em] uppercase text-[var(--gold)] border border-[var(--goldline)] rounded-full px-3.5 py-1.5 hover:bg-[rgba(201,162,74,0.1)] transition"
+          >
+            ⬇ APK Android
+          </a>
+          <a
+            href="https://github.com/emanagementrecruitment-ekhy/ar-client-portal-channel/releases/latest/download/AR-Corp-Channel-Desktop-Setup.exe"
+            className="text-[9.5px] tracking-[0.12em] uppercase text-[var(--gold)] border border-[var(--goldline)] rounded-full px-3.5 py-1.5 hover:bg-[rgba(201,162,74,0.1)] transition"
+          >
+            ⬇ Desktop (Windows)
+          </a>
+        </div>
       </div>
     </div>
   );

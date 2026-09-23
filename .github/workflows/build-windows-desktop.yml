@@ -1,0 +1,65 @@
+name: Build Desktop App (Windows installer)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "desktop/**"
+      - ".github/workflows/build-windows-desktop.yml"
+
+jobs:
+  build:
+    # Runs on a real Windows machine — no wine, no cross-compile risk.
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install desktop app dependencies
+        working-directory: desktop
+        run: npm install
+
+      - name: Build Windows installer
+        working-directory: desktop
+        run: npm run dist:win
+
+      - name: Resolve product name from desktop/package.json
+        id: product
+        shell: bash
+        run: |
+          name=$(node -p "require('./desktop/package.json').build.productName")
+          slug=$(echo "$name" | tr ' ' '-')
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "slug=$slug" >> "$GITHUB_OUTPUT"
+
+      - name: Upload installer as a workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-installer-${{ github.run_number }}
+          path: desktop/dist/*.exe
+          retention-days: 90
+
+      - name: Publish as a GitHub Release (stable download link)
+        # Release assets don't touch git history — this installer is far too
+        # big for that (GitHub blocks pushes with files over 100MB). Each
+        # build gets its own tag (desktop-<run number>) instead of reusing
+        # one, and --latest keeps the stable /releases/latest/ alias pointed
+        # at this run's release regardless of tag name — so the download
+        # link on the login page never needs to change.
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          installer=$(ls desktop/dist/*.exe)
+          exeName="${{ steps.product.outputs.slug }}-Setup.exe"
+          cp "$installer" "$exeName"
+          gh release create "desktop-${{ github.run_number }}" "$exeName" \
+            --title "${{ steps.product.outputs.name }} — installer terbaru" \
+            --notes "Dibuat otomatis dari commit ${{ github.sha }} (build #${{ github.run_number }}). Unduh dan jalankan langsung di komputer/laptop Windows." \
+            --latest

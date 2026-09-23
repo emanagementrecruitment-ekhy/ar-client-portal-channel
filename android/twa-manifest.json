@@ -1,0 +1,40 @@
+{
+  "packageId": "id.arcorp.clientportal",
+  "host": "ar-client-portal-channel-production.up.railway.app",
+  "name": "AR Corp Channel",
+  "launcherName": "AR Corp Channel",
+  "display": "standalone",
+  "themeColor": "#0a0a0c",
+  "themeColorDark": "#0a0a0c",
+  "navigationColor": "#0a0a0c",
+  "navigationColorDark": "#0a0a0c",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#0a0a0c",
+  "enableNotifications": false,
+  "startUrl": "/login",
+  "iconUrl": "https://ar-client-portal-channel-production.up.railway.app/icons/icon-512.png",
+  "maskableIconUrl": "https://ar-client-portal-channel-production.up.railway.app/icons/icon-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./android.keystore",
+    "alias": "clientportal"
+  },
+  "appVersionCode": 1,
+  "appVersion": "1.0.0",
+  "shortcuts": [],
+  "generatorApp": "manual",
+  "webManifestUrl": "https://ar-client-portal-channel-production.up.railway.app/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "minSdkVersion": 21,
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": []
+}

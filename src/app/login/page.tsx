@@ -226,6 +226,22 @@ export default function ClientLoginPage() {
             </div>
           )}
         </div>
+
+        <div className="mt-5 flex flex-wrap gap-2.5 justify-center">
+          <a
+            href="/downloads/client-portal.apk"
+            download
+            className="text-[10px] tracking-[0.14em] uppercase text-[var(--gold)] border border-[var(--goldline)] rounded-full px-4 py-2 hover:bg-[rgba(201,162,74,0.1)] transition"
+          >
+            ⬇ Unduh Aplikasi Android (APK)
+          </a>
+          <a
+            href="https://github.com/emanagementrecruitment-ekhy/ar-client-portal-channel/releases/latest/download/AR-Corp-Channel-Desktop-Setup.exe"
+            className="text-[10px] tracking-[0.14em] uppercase text-[var(--gold)] border border-[var(--goldline)] rounded-full px-4 py-2 hover:bg-[rgba(201,162,74,0.1)] transition"
+          >
+            ⬇ Unduh Aplikasi Desktop (Windows)
+          </a>
+        </div>
       </div>
     </div>
   );

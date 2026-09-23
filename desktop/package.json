@@ -1,0 +1,39 @@
+{
+  "name": "arcorp-client-portal-desktop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AR Corp Channel Desktop — pembungkus aplikasi Portal Client/Channel AR Corp untuk komputer/laptop.",
+  "author": "AR Corp",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "electron-builder --win --x64"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "id.arcorp.clientportal.desktop",
+    "productName": "AR Corp Channel Desktop",
+    "asar": true,
+    "publish": null,
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": ["package.json", "main.js", "offline.html"],
+    "win": {
+      "target": [{ "target": "nsis", "arch": ["x64"] }],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": true,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "AR Corp Channel"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "id.arcorp.clientportal",
+      "sha256_cert_fingerprints": [
+        "FE:77:13:C0:83:4B:48:9B:8F:BC:74:6D:00:54:57:43:46:15:94:8C:E2:F9:64:E3:FE:CA:50:B1:0C:47:58:9A"
+      ]
+    }
+  }
+]
