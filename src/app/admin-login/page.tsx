@@ -38,8 +38,8 @@ export default function AdminLoginPage() {
           <Image
             src="/ar-corp-logo.png"
             alt="AR Corp"
-            width={64}
-            height={64}
+            width={104}
+            height={104}
             unoptimized
             className="rounded-full object-contain bg-[var(--bg)] border border-[var(--goldline)]"
           />

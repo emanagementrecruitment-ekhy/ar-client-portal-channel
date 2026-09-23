@@ -122,8 +122,8 @@ export default function ClientLoginPage() {
             <Image
               src="/ar-corp-logo.png"
               alt="AR Corp"
-              width={88}
-              height={88}
+              width={140}
+              height={140}
               unoptimized
               className="relative rounded-full object-contain bg-[var(--bg)] border border-[var(--goldline)]"
             />
