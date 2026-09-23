@@ -79,3 +79,4 @@ browser, benar-benar terasa seperti aplikasi native). Sudah otomatis
 disiapkan dan cocok dengan sertifikat di `android.keystore` yang sama.
 
 <!-- secrets configured, triggering build -->
+<!-- workflow permissions set to read-and-write, retriggering build -->
