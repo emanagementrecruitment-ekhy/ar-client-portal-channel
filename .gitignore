@@ -27,6 +27,3 @@ next-env.d.ts
 # Electron build output
 /desktop/node_modules/
 /desktop/dist/
-
-# Built APK is published by CI, not committed manually from here
-/public/downloads/*.apk
