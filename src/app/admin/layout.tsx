@@ -4,7 +4,7 @@ import AdminLogoutButton from "@/components/AdminLogoutButton";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const authed = await isAdminSession();
-  if (!authed) redirect("/admin/login");
+  if (!authed) redirect("/admin-login");
 
   return (
     <div className="min-h-screen">
