@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { normalizeIdentifier } from "@/lib/lookup";
 import { issueClientOtp } from "@/lib/otp";
 import { rateLimit, clientIp } from "@/lib/rate-limit";
+import { DEMO_CLIENT_CODE } from "@/lib/constants";
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => null);
@@ -31,7 +32,8 @@ export async function POST(req: Request) {
   }
 
   const target = norm.kind === "email" ? client.email : client.phone;
-  const { devCode, delivered } = await issueClientOtp(client.id, target, norm.kind);
+  const isDemo = client.code === DEMO_CLIENT_CODE;
+  const { devCode, delivered } = await issueClientOtp(client.id, target, norm.kind, isDemo);
 
-  return NextResponse.json({ ok: true, maskedTarget: target, delivered, devCode });
+  return NextResponse.json({ ok: true, maskedTarget: target, delivered, devCode, isDemo });
 }

@@ -9,7 +9,12 @@ function generateCode(): string {
   return String(Math.floor(100000 + Math.random() * 900000));
 }
 
-export async function issueClientOtp(clientId: string, target: string, kind: IdentifierKind) {
+/**
+ * alwaysReturnCode overrides production gating for the standing demo Client
+ * account (see DEMO_CLIENT_CODE) whose email/phone aren't real — otherwise
+ * nobody could ever retrieve its code at all.
+ */
+export async function issueClientOtp(clientId: string, target: string, kind: IdentifierKind, alwaysReturnCode = false) {
   const code = generateCode();
   const codeHash = await bcrypt.hash(code, 10);
   const expiresAt = new Date(Date.now() + OTP_TTL_SECONDS * 1000);
@@ -21,21 +26,21 @@ export async function issueClientOtp(clientId: string, target: string, kind: Ide
   if (channel === "email" && emailProviderConfigured()) {
     try {
       await sendOtpEmail(target, code);
-      return { devCode: undefined, delivered: true as const };
+      return { devCode: alwaysReturnCode ? code : undefined, delivered: true as const };
     } catch (err) {
       console.error(`[client-portal-otp] email delivery failed for client ${clientId}, falling back to console:`, err);
     }
   } else if (channel === "whatsapp") {
     try {
       await sendOtpWhatsapp(target, code);
-      return { devCode: undefined, delivered: true as const };
+      return { devCode: alwaysReturnCode ? code : undefined, delivered: true as const };
     } catch (err) {
       console.error(`[client-portal-otp] whatsapp delivery failed for client ${clientId}, falling back to console:`, err);
     }
   }
 
   console.log(`[client-portal-otp] code for client ${clientId}: ${code} (expires ${expiresAt.toISOString()})`);
-  const showCode = process.env.NODE_ENV !== "production";
+  const showCode = alwaysReturnCode || process.env.NODE_ENV !== "production";
   return { devCode: showCode ? code : undefined, delivered: false as const };
 }
 

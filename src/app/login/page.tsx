@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+const DEMO_CLIENT_EMAIL = "demo.channel@arcorp-channel.invalid";
+
 type Step = "id" | "otp" | "gps";
 interface GpsStep {
   label: string;
@@ -16,6 +18,7 @@ export default function ClientLoginPage() {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const [devCode, setDevCode] = useState<string | null>(null);
+  const [isDemo, setIsDemo] = useState(false);
   const [delivered, setDelivered] = useState(false);
   const [busy, setBusy] = useState(false);
   const [gpsSteps, setGpsSteps] = useState<GpsStep[]>([]);
@@ -40,6 +43,7 @@ export default function ClientLoginPage() {
         return;
       }
       setDevCode(data.devCode ?? null);
+      setIsDemo(Boolean(data.isDemo));
       setDelivered(Boolean(data.delivered));
       setOtp("");
       setStep("otp");
@@ -140,6 +144,15 @@ export default function ClientLoginPage() {
               >
                 Kirim Kode Verifikasi
               </button>
+              <button
+                onClick={() => {
+                  setLoginId(DEMO_CLIENT_EMAIL);
+                  setError("");
+                }}
+                className="w-full mt-2.5 py-2 bg-transparent border border-[var(--goldline)] rounded-[10px] text-[var(--gold)] text-[10.5px] tracking-[0.08em] cursor-pointer"
+              >
+                Coba Demo (Mami Ariel)
+              </button>
             </div>
           )}
 
@@ -150,7 +163,8 @@ export default function ClientLoginPage() {
               </div>
               {devCode && (
                 <div className="mb-3 py-2 px-3 rounded-lg border border-[var(--goldline)] bg-[rgba(201,162,74,0.1)] text-[var(--gold2)] text-[12px] text-center tracking-[0.1em]">
-                  Mode pengembangan — kode Anda: <strong>{devCode}</strong>
+                  {isDemo ? "Akun demo — kode Anda: " : "Mode pengembangan — kode Anda: "}
+                  <strong>{devCode}</strong>
                 </div>
               )}
               {delivered && (
