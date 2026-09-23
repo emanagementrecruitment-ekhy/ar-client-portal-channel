@@ -149,7 +149,7 @@ export default function AdminClientLedgerPage() {
               <select
                 value={form.outlet}
                 onChange={(e) => setForm((f) => ({ ...f, outlet: e.target.value }))}
-                className="w-full py-2.5 px-3.5 bg-black/30 border border-[var(--line)] rounded-[10px] text-[12.5px]"
+                className="w-full py-3 px-3.5 bg-black/30 border border-[var(--line)] rounded-[10px] text-[15px] text-[var(--text)]"
               >
                 <option value="">Pilih outlet…</option>
                 {form.outlet && !CLIENT_OUTLETS.includes(form.outlet as (typeof CLIENT_OUTLETS)[number]) && (
@@ -178,7 +178,7 @@ export default function AdminClientLedgerPage() {
                 <select
                   value={form.fee}
                   onChange={(e) => setForm((f) => ({ ...f, fee: e.target.value }))}
-                  className="w-full py-2.5 px-3.5 bg-black/30 border border-[var(--line)] rounded-[10px] text-[12.5px]"
+                  className="w-full py-3 px-3.5 bg-black/30 border border-[var(--line)] rounded-[10px] text-[15px] text-[var(--text)]"
                 >
                   {CLIENT_FEE_TIERS.map((f) => (
                     <option key={f} value={f}>

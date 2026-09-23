@@ -25,7 +25,21 @@ body {
   font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
-input,
-select {
+input {
   color-scheme: dark;
+}
+
+/* Native <select> dropdown popups render with the OS/browser's own theme —
+   color-scheme + Tailwind classes on the closed control don't reliably
+   reach the open option list on every device, so force it explicitly:
+   solid readable black-on-white, at a size that's easy to tap/read. */
+select {
+  color-scheme: light;
+}
+
+select option {
+  color: #000;
+  background-color: #fff;
+  font-size: 17px;
+  padding: 8px;
 }
