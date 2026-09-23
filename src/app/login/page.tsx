@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const DEMO_CLIENT_EMAIL = "demo.channel@arcorp-channel.invalid";
 
@@ -115,10 +116,23 @@ export default function ClientLoginPage() {
   return (
     <div className="min-h-screen grid place-items-center p-5 sm:p-10">
       <div className="w-full max-w-[400px]">
-        <div className="text-center mb-6">
-          <div className="text-[11px] tracking-[0.32em] uppercase text-[var(--gold)] font-semibold">AR CORP</div>
-          <div className="text-[22px] font-semibold mt-1">Channel Portal</div>
-          <div className="text-[11px] text-[var(--dim)] mt-1">Pantau data VCR/Fee talent Anda</div>
+        <div className="flex flex-col items-center gap-3 mb-6 text-center">
+          <div className="relative">
+            <div className="absolute -inset-2 rounded-full opacity-70 blur-md" style={{ background: "radial-gradient(circle, rgba(201,162,74,0.35), transparent 70%)" }} />
+            <Image
+              src="/ar-corp-logo.png"
+              alt="AR Corp"
+              width={88}
+              height={88}
+              unoptimized
+              className="relative rounded-full object-contain bg-[var(--bg)] border border-[var(--goldline)]"
+            />
+          </div>
+          <div>
+            <div className="text-[11px] tracking-[0.32em] uppercase text-[var(--gold)] font-semibold">AR CORP</div>
+            <div className="text-[22px] font-semibold mt-1">Channel Portal</div>
+            <div className="text-[11px] text-[var(--dim)] mt-1">Pantau data VCR/Fee talent Anda</div>
+          </div>
         </div>
 
         <div className="bg-[var(--surface)] border border-[var(--line)] rounded-2xl p-6">

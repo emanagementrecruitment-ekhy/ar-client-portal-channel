@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -33,8 +34,20 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen grid place-items-center p-6">
       <div className="w-full max-w-[360px] bg-[var(--surface)] border border-[var(--line)] rounded-2xl p-7">
-        <div className="text-[11px] tracking-[0.3em] uppercase text-[var(--gold)] mb-1">AR Corp Channel</div>
-        <div className="text-[20px] font-semibold mb-5">Admin — Masuk</div>
+        <div className="flex flex-col items-center gap-2.5 mb-5 text-center">
+          <Image
+            src="/ar-corp-logo.png"
+            alt="AR Corp"
+            width={64}
+            height={64}
+            unoptimized
+            className="rounded-full object-contain bg-[var(--bg)] border border-[var(--goldline)]"
+          />
+          <div>
+            <div className="text-[11px] tracking-[0.3em] uppercase text-[var(--gold)]">AR Corp Channel</div>
+            <div className="text-[20px] font-semibold mt-0.5">Admin — Masuk</div>
+          </div>
+        </div>
         <input
           type="password"
           value={password}

@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { fmtRp, monthLabel } from "@/lib/format";
 
 interface Entry {
@@ -51,6 +52,9 @@ export default function DashboardClient({ name, code }: { name: string; code: st
 
   return (
     <div className="min-h-screen p-5 sm:p-8 max-w-[980px] mx-auto">
+      <div className="fixed inset-0 -z-10 flex items-center justify-center pointer-events-none select-none">
+        <Image src="/ar-corp-logo.png" alt="" width={520} height={520} unoptimized className="object-contain opacity-[0.04]" />
+      </div>
       <div className="flex items-center justify-between gap-3 pb-4 border-b border-[var(--line)]">
         <div>
           <div className="text-[13px] text-[var(--gold2)]">{name}</div>
