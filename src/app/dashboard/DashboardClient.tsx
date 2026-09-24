@@ -72,7 +72,7 @@ export default function DashboardClient({ name, code }: { name: string; code: st
 
       <div className="flex flex-wrap items-end justify-between gap-4 pt-5 pb-4">
         <div>
-          <div className="text-[22px] font-semibold leading-[1.1]">Data VCR / Fee</div>
+          <div className="text-[22px] font-semibold leading-[1.1]">Data Komisi</div>
           <div className="text-[11.5px] text-[var(--dim)] mt-1.5">Ringkasan pendapatan talent Anda per periode.</div>
         </div>
         <MonthYearPicker value={month} onChange={setMonth} />
@@ -92,7 +92,7 @@ export default function DashboardClient({ name, code }: { name: string; code: st
                 <th className="py-3 pr-3">Outlet</th>
                 <th className="py-3 pr-3 text-right">VCR</th>
                 <th className="py-3 pr-3 text-right">Fee</th>
-                <th className="py-3 pr-3 text-right">Jumlah</th>
+                <th className="py-3 pr-3 text-right">Komisi</th>
                 <th className="py-3 pr-3 text-right">Potongan/Kasbon</th>
                 <th className="py-3 pr-3">Keterangan</th>
               </tr>

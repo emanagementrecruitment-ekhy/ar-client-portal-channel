@@ -142,7 +142,7 @@ export default function AdminClientLedgerPage() {
       <div className="flex flex-wrap items-end justify-between gap-4 pb-4 border-b border-[var(--line)]">
         <div>
           <div className="text-[22px] font-semibold leading-[1.1]">{clientName ? `Data Client — ${clientName}` : "Data Client"}</div>
-          <div className="text-[11.5px] text-[var(--dim)] mt-1.5">{clientCode ? `Kode ${clientCode} · ledger VCR/Fee bulanan` : ""}</div>
+          <div className="text-[11.5px] text-[var(--dim)] mt-1.5">{clientCode ? `Kode ${clientCode} · ledger Komisi bulanan` : ""}</div>
         </div>
         <MonthYearPicker value={month} onChange={setMonth} />
       </div>
@@ -288,7 +288,7 @@ export default function AdminClientLedgerPage() {
                 <th className="py-3 pr-3">Outlet</th>
                 <th className="py-3 pr-3 text-right">VCR</th>
                 <th className="py-3 pr-3 text-right">Fee</th>
-                <th className="py-3 pr-3 text-right">Jumlah</th>
+                <th className="py-3 pr-3 text-right">Komisi</th>
                 <th className="py-3 pr-3 text-right">Potongan/Kasbon</th>
                 <th className="py-3 pr-3">Keterangan</th>
                 <th className="py-3 pr-3 print:hidden"></th>

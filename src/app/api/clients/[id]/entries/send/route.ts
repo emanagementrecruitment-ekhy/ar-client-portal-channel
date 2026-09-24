@@ -48,7 +48,7 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
     await sendPdfEmail(
       client.email,
       `Ledger ${monthLabel(month)} - AR Corp Channel`,
-      `Halo ${client.name}, berikut ledger VCR/Fee Anda untuk ${monthLabel(month)}. Dokumen terlampir.`,
+      `Halo ${client.name}, berikut ledger Komisi Anda untuk ${monthLabel(month)}. Dokumen terlampir.`,
       pdf,
       filename
     );

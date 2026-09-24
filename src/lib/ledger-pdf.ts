@@ -62,7 +62,7 @@ export function generateLedgerPdf(input: LedgerPdfInput): Promise<Buffer> {
 
     doc.fontSize(9).fillColor("#8a6d1f").font("Helvetica-Bold").text("AR CORP CHANNEL", { characterSpacing: 2 });
     doc.moveDown(0.2);
-    doc.fontSize(20).fillColor("#111111").font("Helvetica-Bold").text("Ledger VCR / Fee");
+    doc.fontSize(20).fillColor("#111111").font("Helvetica-Bold").text("Ledger Komisi");
     doc.moveDown(0.8);
 
     doc.fontSize(10).font("Helvetica").fillColor("#111111");
@@ -73,7 +73,7 @@ export function generateLedgerPdf(input: LedgerPdfInput): Promise<Buffer> {
 
     const colX = [48, 78, 240, 300, 360, 430, 500];
     const colW = [28, 155, 55, 55, 65, 65, 47];
-    const headers = ["No", "Nama", "Outlet", "VCR", "Fee", "Jumlah", "Potongan"];
+    const headers = ["No", "Nama", "Outlet", "VCR", "Fee", "Komisi", "Potongan"];
 
     function drawRow(cells: string[], opts: { bold?: boolean; color?: string } = {}) {
       const y = doc.y;
