@@ -9,6 +9,15 @@ export const metadata: Metadata = {
     icon: [{ url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" }],
     apple: [{ url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" }],
   },
+  // Without this, iOS "Add to Home Screen" just bookmarks the page — the
+  // icon opens in Safari with its address bar. This is what makes the
+  // saved icon launch full-screen like a real app instead (see
+  // /downloads/iphone for the install steps this depends on).
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "AR Corp Channel",
+  },
 };
 
 export const dynamic = "force-dynamic";

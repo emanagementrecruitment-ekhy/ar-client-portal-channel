@@ -255,6 +255,12 @@ export default function ClientLoginPage() {
           >
             ⬇ Unduh Aplikasi Desktop (Windows)
           </a>
+          <a
+            href="/downloads/iphone"
+            className="text-[10px] tracking-[0.14em] uppercase text-[var(--gold)] border border-[var(--goldline)] rounded-full px-4 py-2 hover:bg-[rgba(201,162,74,0.1)] transition"
+          >
+            📱 Pasang di iPhone
+          </a>
         </div>
       </div>
     </div>
