@@ -80,6 +80,12 @@ export default function AdminLoginPage() {
           >
             ⬇ Desktop (Windows)
           </a>
+          <a
+            href="/downloads/iphone"
+            className="text-[9.5px] tracking-[0.12em] uppercase text-[var(--gold)] border border-[var(--goldline)] rounded-full px-3.5 py-1.5 hover:bg-[rgba(201,162,74,0.1)] transition"
+          >
+            📱 iPhone
+          </a>
         </div>
       </div>
     </div>
